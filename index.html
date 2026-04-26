@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wild Gunman - Pro Edition</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="game-app">
+      <header id="stats-panel">
+        <div class="stat-box">
+          <span class="label">РАХУНОК:</span>
+          <span id="ui-score" class="value text-green">$0</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">РІВЕНЬ:</span>
+          <span id="ui-level" class="value">1</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">ЧАС ВОРОГА:</span>
+          <span id="ui-enemy-time" class="value">0.80с</span>
+        </div>
+      </header>
+
+      <main id="arena">
+        <div class="scenery sun"></div>
+        <div class="scenery mountain"></div>
+        <div class="scenery cactus cactus-1"></div>
+        <div class="scenery cactus cactus-2"></div>
+
+        <div id="ui-message" class="message-overlay hidden"></div>
+
+        <div id="character" class="hidden">
+          <div class="char-speech hidden" id="char-speech">FIRE!</div>
+
+          <div class="char-hat">
+            <div class="hat-crown" id="char-hat-crown"></div>
+            <div class="hat-brim" id="char-hat-brim"></div>
+          </div>
+
+          <div class="char-head">
+            <div class="char-eyes hidden" id="char-eyes"></div>
+            <div id="char-accessory"></div>
+          </div>
+
+          <div class="char-body" id="char-body">
+            <div class="char-arm-left" id="char-arm-left"></div>
+            <div class="char-arm-right" id="char-arm-right">
+              <div class="char-gun">
+                <div class="gun-flash hidden" id="gun-flash"></div>
+              </div>
+            </div>
+            <div class="char-belt"><div class="buckle"></div></div>
+          </div>
+
+          <div class="char-legs" id="char-legs"></div>
+        </div>
+      </main>
+
+      <footer id="control-panel">
+        <button id="btn-action" class="btn">Розпочати гру</button>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

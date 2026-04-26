@@ -1,0 +1,382 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: "Courier New", monospace;
+  color: white;
+}
+
+#game-app {
+  width: 800px;
+  height: 600px;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  border: 4px solid #444;
+  position: relative;
+  overflow: hidden;
+}
+
+#stats-panel {
+  height: 80px;
+  border-bottom: 4px solid #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 20px;
+}
+.stat-box {
+  font-size: 24px;
+  font-weight: bold;
+}
+.label {
+  color: #aaa;
+  margin-right: 10px;
+}
+.value {
+  color: #fff;
+}
+.text-green {
+  color: #00ff00;
+}
+
+#arena {
+  flex-grow: 1;
+  background: linear-gradient(
+    to bottom,
+    #1a2a6c 50%,
+    #b21f1f 50%,
+    #fdbb2d 100%
+  );
+  position: relative;
+}
+.scenery {
+  position: absolute;
+}
+.sun {
+  width: 100px;
+  height: 100px;
+  background: #ffaa00;
+  border-radius: 50%;
+  top: 50px;
+  left: 50px;
+}
+.mountain {
+  width: 300px;
+  height: 150px;
+  background: #3a1c0d;
+  bottom: 30%;
+  right: 100px;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.cactus {
+  width: 20px;
+  background: #2e6624;
+  bottom: 30%;
+}
+.cactus-1 {
+  height: 120px;
+  left: 150px;
+}
+.cactus-2 {
+  height: 80px;
+  right: 300px;
+}
+
+.message-overlay {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 3px 3px 0 #000;
+  z-index: 20;
+  width: 100%;
+}
+
+#character {
+  position: absolute;
+  bottom: 20%;
+  width: 100px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+  cursor: crosshair;
+}
+#character.standing,
+#character.duel {
+  pointer-events: auto;
+}
+
+#character.walking {
+  animation:
+    moveIntoCenter 3s linear forwards,
+    bobbing 0.5s infinite alternate;
+}
+@keyframes moveIntoCenter {
+  0% {
+    left: -100px;
+  }
+  100% {
+    left: calc(50% - 50px);
+  }
+}
+@keyframes bobbing {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+#character.standing,
+#character.duel,
+#character.firing {
+  left: calc(50% - 50px);
+}
+#character.dead {
+  left: calc(50% - 50px);
+  transform-origin: bottom center;
+  animation: fallOver 0.5s forwards;
+  pointer-events: none;
+}
+@keyframes fallOver {
+  100% {
+    transform: rotate(-90deg) translateY(50px);
+    opacity: 0.5;
+  }
+}
+
+.char-hat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 4;
+}
+.hat-crown {
+  width: 45px;
+  height: 25px;
+  border-radius: 10px 10px 0 0;
+}
+.hat-brim {
+  width: 70px;
+  height: 10px;
+  border-radius: 5px;
+}
+
+.char-head {
+  width: 45px;
+  height: 45px;
+  background: #ffccaa;
+  position: relative;
+  z-index: 3;
+}
+.char-eyes {
+  position: absolute;
+  top: 15px;
+  left: 5px;
+  width: 35px;
+  height: 8px;
+  background: red;
+  box-shadow: 0 0 10px red;
+  z-index: 5;
+}
+
+.char-body {
+  width: 55px;
+  height: 60px;
+  position: relative;
+  z-index: 2;
+}
+.char-legs {
+  width: 55px;
+  height: 50px;
+}
+
+.char-belt {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 10px;
+  background: #222;
+}
+.buckle {
+  width: 15px;
+  height: 10px;
+  background: gold;
+  margin: 0 auto;
+  border: 2px solid #555;
+}
+
+.char-arm-left,
+.char-arm-right {
+  position: absolute;
+  width: 16px;
+  height: 50px;
+  top: 5px;
+  transform-origin: top center;
+  transition: transform 0.1s ease-in-out;
+}
+.char-arm-left {
+  left: -16px;
+}
+.char-arm-right {
+  right: -16px;
+}
+
+.char-gun {
+  position: absolute;
+  bottom: -5px;
+  right: 0;
+  width: 25px;
+  height: 10px;
+  background: #333;
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.char-gun::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 8px;
+  height: 15px;
+  background: #5a3a22;
+}
+
+.gun-flash {
+  position: absolute;
+  left: -25px;
+  top: -10px;
+  width: 30px;
+  height: 30px;
+  background: yellow;
+  border-radius: 50%;
+  box-shadow: 0 0 20px 10px orange;
+}
+
+.bandana {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  background: #cc0000;
+  border-radius: 0 0 5px 5px;
+}
+.bandana::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  background: #cc0000;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.mustache {
+  position: absolute;
+  bottom: 10px;
+  left: 5px;
+  width: 35px;
+  height: 10px;
+  background: #222;
+  border-radius: 10px 10px 0 0;
+}
+.eyepatch {
+  position: absolute;
+  top: 12px;
+  left: 5px;
+  width: 20px;
+  height: 15px;
+  background: #111;
+  border-radius: 50%;
+}
+.eyepatch::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: -5px;
+  width: 45px;
+  height: 2px;
+  background: #111;
+  transform: rotate(15deg);
+}
+
+#character.duel .char-arm-right,
+#character.firing .char-arm-right {
+  transform: rotate(-90deg) translateY(-10px);
+}
+#character.duel .char-gun,
+#character.firing .char-gun {
+  opacity: 1;
+}
+#character.firing .gun-flash {
+  display: block !important;
+}
+
+.char-speech {
+  position: absolute;
+  top: -60px;
+  right: -80px;
+  background: white;
+  color: black;
+  padding: 10px 20px;
+  border: 4px solid black;
+  border-radius: 15px;
+  font-weight: bold;
+  font-size: 28px;
+  z-index: 15;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+}
+.char-speech::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 20px;
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+#control-panel {
+  height: 80px;
+  background-color: #000;
+  border-top: 4px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn {
+  background-color: #000;
+  color: #fff;
+  border: 3px solid #fff;
+  padding: 10px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.btn:hover {
+  background-color: #fff;
+  color: #000;
+}
+.hidden {
+  display: none !important;
+}
